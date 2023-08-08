@@ -40,6 +40,7 @@ const getConfig = (): ActionConfig => {
     console.log('username', username)
     // eslint-disable-next-line no-console
     console.log('key', key)
+    core.info('This is an info message')
     throw new Error('Missing OpenObserve credentials')
   }
 
