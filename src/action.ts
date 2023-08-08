@@ -121,7 +121,7 @@ export const uploadLogs = async (
   key: string,
   logs: Log[]
 ): Promise<AxiosResponse<OpenObserveResult>> => {
-  core.error('Uploading logs to Open Observe:', endpoint))
+  console.log('Uploading logs to Open Observe:', endpoint)
   return axios.post(endpoint, logs, {
     auth: {username, password: key},
     headers: {'Content-Type': 'application/json'}
