@@ -34,6 +34,12 @@ const getConfig = (): ActionConfig => {
   const key = process.env.OPENOBSERVE_KEY || core.getInput('openobserve_key')
 
   if (!endpoint || !username || !key) {
+    // eslint-disable-next-line no-console
+    console.log('endpoint', endpoint)
+    // eslint-disable-next-line no-console
+    console.log('username', username)
+    // eslint-disable-next-line no-console
+    console.log('key', key)
     throw new Error('Missing OpenObserve credentials')
   }
 
