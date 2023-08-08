@@ -1,5 +1,5 @@
 import * as github from '@actions/github'
-import axios, { AxiosResponse } from 'axios'
+import axios, {AxiosResponse} from 'axios'
 import * as core from '@actions/core'
 
 export type Log = {
@@ -122,6 +122,7 @@ export const uploadLogs = async (
   logs: Log[]
 ): Promise<AxiosResponse<OpenObserveResult>> => {
   console.log('Uploading logs to Open Observe:', endpoint)
+  core.debug('This is a debug message')
   return axios.post(endpoint, logs, {
     auth: {username, password: key},
     headers: {'Content-Type': 'application/json'}
