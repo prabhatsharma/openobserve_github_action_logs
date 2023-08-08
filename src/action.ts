@@ -1,6 +1,7 @@
 import * as github from '@actions/github'
 import axios, {AxiosResponse} from 'axios'
 import * as core from '@actions/core'
+import { group } from 'console'
 
 export type Log = {
   job_id: number
@@ -37,7 +38,7 @@ const parseTimestamp = (line: string): number | null => {
 
 // Read in a log file and parse it into a JSON object
 // Log file will be in the format: [timestamp] [message] \n
-export const parseLog = (
+export const parseLog1 = (
   job: {id: number; run_id: number},
   logs: string
 ): Log[] => {
@@ -77,6 +78,39 @@ export const parseLog = (
   }
 
   return group
+}
+
+export const parseLog = (
+  job: { id: number; run_id: number },
+  logs: string
+) => {
+  let log1 = parseLog1(job, logs)
+  let log2 = parseLog2(log1)
+  return log2
+}
+
+export const parseLog2 = (group: Log[]): Log[] => {
+  // get the group from parseLog function. parse each group and split it by "\n" to get additional lines in log
+  // then parse each line and get the timestamp and message
+  // then create a new array of logs with the timestamp and message
+  const logs: Log[] = []
+  for (const g of group) {
+    if (g.log !== null) {
+      const lines = g.log.split('\n')
+      for (const line of lines) {
+        const logItem: Log = {
+          run_id: g.run_id,
+          job_id: g.job_id,
+          log: line
+        }
+        const timestamp = parseTimestamp(line)
+        if (timestamp) logItem._timestamp = timestamp
+        logs.push(logItem)
+      }
+    }
+  }
+
+  return logs
 }
 
 export const fetchRunLogs = async (
