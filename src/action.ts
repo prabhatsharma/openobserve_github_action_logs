@@ -101,7 +101,7 @@ export const parseLog2 = (group: Log[]): Log[] => {
         const logItem: Log = {
           run_id: g.run_id,
           job_id: g.job_id,
-          log: line
+          log: line.substring(29)
         }
         const timestamp = parseTimestamp(line)
         if (timestamp) logItem._timestamp = timestamp
